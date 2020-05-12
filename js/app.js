@@ -1,25 +1,15 @@
 var dataArray = [];
 
-async function addData(string) {
-    dataArray.push(string);
-}
-
-function typedArrayToURL(typedArray, mimeType) {
-    return URL.createObjectURL(new Blob([typedArray], {type: mimeType}))
-  }
-  
 async function downloadData() {
-    const url = typedArrayToURL(dataArray, 'text/csv;charset=utf-8;');
-    console.log(dataArray);
+    const blob = new Blob([dataArray], {type: 'text/csv;charset=utf-8;'});
+    const url = [URL.createObjectURL(blob)]
 
     const link = document.createElement('a');
     link.href = url;
-    link.innerText = 'Open the array URL';
-    link.download = "data";
+    // link.download = "data";
+    window.open(blob);
     link.click();
     link.remove();
-
-    document.body.appendChild(link);
 
 }
 
@@ -135,7 +125,6 @@ document.addEventListener('DOMContentLoaded', function(e) {
     document.querySelector("#stop-flow").addEventListener('click', onStopFlowClick);
     document.querySelector("#stop-flow").addEventListener('click', onStopFlowRibcageClick);
     document.querySelector("#stop-hr").addEventListener('click', onStopHeartRateClick);
-
 
     document.querySelector("#download").addEventListener('click', downloadData);
 

@@ -101,8 +101,6 @@ function handleFlowRibcageNotifications(event) {
     }
     ribcageText.innerHTML = "Ribcage: " + int16View[0].toString();
     
-    // let minRibVal = Math.min.apply(null, ribcageValues);
-    // let maxRibVal = Math.max.apply(null, ribcageValues);
     let ribcageRange = maxRibVal - minRibVal;
     var ribcagePlotValues = ribcageValues.map(function(element) {
         return (element - minRibVal)/ribcageRange;
@@ -113,50 +111,5 @@ function handleFlowRibcageNotifications(event) {
     }
     drawWaves(ribcagePlotValues, ribcageCanvas, 1, 6.0);
 
-    // Predicting airflow
-    // if (ribcageValues.length > 50 ){
-
-    //     // let inputValues = ribcageValues.slice(-51, -1).map(function(element) {
-    //         // return (
-
-    //     fetch('http://127.0.0.1:5000/getEstimation', {
-    //       method: 'post',
-    //       headers: {
-    //         'Content-Type': 'application/json',
-    //       },
-    //       body: JSON.stringify({'value': ribcagePlotValues.slice(-51, -1)})
-    //     })
-    //     .then((response) => response.json())
-    //     .then((data) => {
-    //       console.log('Success:', data);
-            
-    //         airflowValues.push(data.airflow);
-
-    //         if (data.airflow > maxAirVal) {
-    //             maxAirVal = data.airflow;
-    //         }
-    //         if (data.airflow < minAirVal) {
-    //             minAirVal = data.airflow;
-    //         }
-    //         let airflowRange = maxAirVal - minAirVal;
-
-    //         var airflowPlotValues = airflowValues.map(function(element) {
-    //             return (element - minAirVal)/airflowRange;
-    //         });
-
-    //         // airflowText.innerHTML = "Predicted airflow: " + airflowPlotValues.slice(-1);
-
-    //         drawWaves(airflowPlotValues, airflowCanvas, 1, 42, 70);
-                
-    //     })
-    //     .catch((error) => {
-    //       console.error('Error:', error);
-    //     });
-        
-    // } 
-
-    // if (airflowValues.length > 28) {
-    //     airflowValues.shift();
-    // }
 }
 
