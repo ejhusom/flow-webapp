@@ -1,4 +1,4 @@
-# DeepVentilation
+# Flow WebApp
 
 This application connects to a Concept2 PM5 monitor and SweetZpot FLOW breathing
 sensors using Bluetooth Low Energy, and predicts airflow using a LSTM neural
