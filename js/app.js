@@ -1,6 +1,7 @@
 var dataArray = [];
 
 async function downloadData() {
+    console.log(dataArray);
     const blob = new Blob([dataArray], {type: 'text/csv;charset=utf-8;'});
     const url = [URL.createObjectURL(blob)]
 
