@@ -4,12 +4,12 @@ async function downloadData() {
     const blob = new Blob([dataArray], {type: 'text/csv;charset=utf-8;'});
     const url = [URL.createObjectURL(blob)]
 
-    const link = document.createElement('a');
-    link.href = url;
+    // const link = document.createElement('a');
+    // link.href = url;
     // link.download = "data";
-    window.open(blob);
-    link.click();
-    link.remove();
+    window.open(url);
+    // link.click();
+    // link.remove();
 
 }
 
