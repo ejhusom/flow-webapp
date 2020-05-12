@@ -2,15 +2,15 @@ var dataArray = [];
 
 async function downloadData() {
     console.log(dataArray);
-    // const blob = new Blob([dataArray], {type: 'text/csv;charset=utf-8;'});
-    // const url = [URL.createObjectURL(blob)]
+    const blob = new Blob([dataArray], {type: 'text/csv;charset=utf-8;'});
+    const url = [URL.createObjectURL(blob)]
 
-    // const link = document.createElement('a');
-    // link.href = url;
-    // link.download = "data";
-    // // window.open(url);
-    // link.click();
-    // link.remove();
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = "data";
+    // window.open(url);
+    link.click();
+    link.remove();
 
 }
 
