@@ -65,40 +65,42 @@ class Flow {
                 function (event) {
                     
                     // pompel(event, object);
+                    object.handleFlowNotifications(event, object);
 
-                    let value = event.target.value;
-                    let id = event.target.service.device.id;
-                    let int16View = new Int16Array(value.buffer);
-                    let timestamp = new Date().getTime();
-                    // TextDecoder to process raw data bytes.
-                    for (let i = 0; i < 7; i++) {
-                        //Takes the 7 first values as 16bit integers from each notification
-                        //This is then sent as a string with a sensor signifier as OSC using osc-web
-                        socket.emit('message', timestamp + ',abdomen,' + int16View[i].toString() + ',' + (timestamp - 600 + i * 100));
-                        // dataArray.push('\n' + timestamp + ',abdomen,' + int16View[i].toString() + ',' + (timestamp - 600 + i * 100))
 
-                        let v = int16View[i];
+                    //let value = event.target.value;
+                    //let id = event.target.service.device.id;
+                    //let int16View = new Int16Array(value.buffer);
+                    //let timestamp = new Date().getTime();
+                    //// TextDecoder to process raw data bytes.
+                    //for (let i = 0; i < 7; i++) {
+                    //    //Takes the 7 first values as 16bit integers from each notification
+                    //    //This is then sent as a string with a sensor signifier as OSC using osc-web
+                    //    socket.emit('message', timestamp + ',abdomen,' + int16View[i].toString() + ',' + (timestamp - 600 + i * 100));
+                    //    // dataArray.push('\n' + timestamp + ',abdomen,' + int16View[i].toString() + ',' + (timestamp - 600 + i * 100))
 
-                        if (v > object.maxVal) {
-                            object.maxVal = v;
-                        }
-                        if (v < object.minVal) {
-                            object.minVal = v;
-                        }
+                    //    let v = int16View[i];
 
-                        object.values.push(v);
-                    }
-                    document.getElementById(object.name + "Text").innerHTML = object.name + ": " + int16View[0].toString();
+                    //    if (v > object.maxVal) {
+                    //        object.maxVal = v;
+                    //    }
+                    //    if (v < object.minVal) {
+                    //        object.minVal = v;
+                    //    }
 
-                    let valueRange = object.maxVal - object.minVal;
-                    var plotValues = object.values.map(function (element) {
-                        return (element - object.minVal) / valueRange;
-                    });
+                    //    object.values.push(v);
+                    //}
+                    //document.getElementById(object.name + "Text").innerHTML = object.name + ": " + int16View[0].toString();
 
-                    if (object.values.length > 200) {
-                        object.values.splice(0, 7);
-                    }
-                    drawWaves(plotValues, object.canvas, 1, 6.0);
+                    //let valueRange = object.maxVal - object.minVal;
+                    //var plotValues = object.values.map(function (element) {
+                    //    return (element - object.minVal) / valueRange;
+                    //});
+
+                    //if (object.values.length > 200) {
+                    //    object.values.splice(0, 7);
+                    //}
+                    //drawWaves(plotValues, object.canvas, 1, 6.0);
                 });
                 // this.arrow);
                 // this.bound);
@@ -133,8 +135,8 @@ class Flow {
         }
     }
 
-    _handleFlowNotifications(event) {
-        console.log("yoyooyo");
+    _handleFlowNotifications(event, object) {
+        console.log("finally");
         let value = event.target.value;
         let id = event.target.service.device.id;
         let int16View = new Int16Array(value.buffer);
@@ -148,26 +150,26 @@ class Flow {
 
             let v = int16View[i];
 
-            if (v > this.maxVal) {
-                this.maxVal = v;
+            if (v > object.maxVal) {
+                object.maxVal = v;
             }
-            if (v < this.minVal) {
-                this.minVal = v;
+            if (v < object.minVal) {
+                object.minVal = v;
             }
 
-            this.values.push(int16View[i]);
+            object.values.push(int16View[i]);
         }
-        document.getElementById(this.name + "Text").innerHTML = this.name + ": " + int16View[0].toString();
+        document.getElementById(object.name + "Text").innerHTML = object.name + ": " + int16View[0].toString();
 
-        let valueRange = this.maxVal - this.minVal;
-        var plotValues = this.values.map(function (element) {
-            return (element - this.minVal) / valueRange;
+        let valueRange = object.maxVal - object.minVal;
+        var plotValues = object.values.map(function (element) {
+            return (element - object.minVal) / valueRange;
         });
 
-        if (this.values.length > 200) {
-            this.values.splice(0, 7);
+        if (object.values.length > 200) {
+            object.values.splice(0, 7);
         }
-        drawWaves(plotValues, this.canvas, 1, 6.0);
+        drawWaves(plotValues, object.canvas, 1, 6.0);
 
     }
 
