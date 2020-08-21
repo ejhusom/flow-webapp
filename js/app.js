@@ -1,9 +1,5 @@
 var dataArray = [];
 
-async function addData(string) {
-    dataArray.push(string);
-}
-
 async function downloadData() {
     console.log(dataArray);
     const blob = new Blob([dataArray], {type: 'text/csv;charset=utf-8;'});
