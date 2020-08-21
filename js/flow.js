@@ -28,8 +28,8 @@ class Flow {
         this.canvas = document.querySelector('#' + this.name + 'Chart');
         this.onFlowButtonClick = this._onFlowButtonClick.bind(this);
         this.onStopFlowClick = this._onStopFlowClick.bind(this);
-        this.handleFlowNotifications = this._handleFlowNotifications.bind(this);
-        this.boundHandling = this.handleFlowNotifications.bind(this);
+        // this.handleFlowNotifications = this._handleFlowNotifications.bind(this);
+        // this.boundHandling = this.handleFlowNotifications.bind(this);
         // this.handleFlowNotifications = e => this.handleFlowNotifications(e);
     }
 
@@ -56,61 +56,11 @@ class Flow {
             console.log('Getting Characteristic...');
             this.flowCharacteristic = await service.getCharacteristic(characteristicUuid);
 
-            // this.flowCharacteristic.addEventListener('characteristicvaluechanged',
-            //     handleFlowNotifications);
-            // this.bound = evt => this.handleFlowNotifications(evt);
             let object = this;
-            console.log(object);
             this.flowCharacteristic.addEventListener('characteristicvaluechanged',
                 function (event) {
-                    
-                    // pompel(event, object);
-                    object.handleFlowNotifications(event, object);
-
-
-                    //let value = event.target.value;
-                    //let id = event.target.service.device.id;
-                    //let int16View = new Int16Array(value.buffer);
-                    //let timestamp = new Date().getTime();
-                    //// TextDecoder to process raw data bytes.
-                    //for (let i = 0; i < 7; i++) {
-                    //    //Takes the 7 first values as 16bit integers from each notification
-                    //    //This is then sent as a string with a sensor signifier as OSC using osc-web
-                    //    socket.emit('message', timestamp + ',abdomen,' + int16View[i].toString() + ',' + (timestamp - 600 + i * 100));
-                    //    // dataArray.push('\n' + timestamp + ',abdomen,' + int16View[i].toString() + ',' + (timestamp - 600 + i * 100))
-
-                    //    let v = int16View[i];
-
-                    //    if (v > object.maxVal) {
-                    //        object.maxVal = v;
-                    //    }
-                    //    if (v < object.minVal) {
-                    //        object.minVal = v;
-                    //    }
-
-                    //    object.values.push(v);
-                    //}
-                    //document.getElementById(object.name + "Text").innerHTML = object.name + ": " + int16View[0].toString();
-
-                    //let valueRange = object.maxVal - object.minVal;
-                    //var plotValues = object.values.map(function (element) {
-                    //    return (element - object.minVal) / valueRange;
-                    //});
-
-                    //if (object.values.length > 200) {
-                    //    object.values.splice(0, 7);
-                    //}
-                    //drawWaves(plotValues, object.canvas, 1, 6.0);
+                    handleFlowNotifications(event, object);
                 });
-                // this.arrow);
-                // this.bound);
-            //     function(){self.handleFlowNotifications});
-                // function(event){this.handleFlowNotifications(event)});
-                // function(event){self.handleFlowNotifications(event)});
-            // this.flowCharacteristic.addEventListener('characteristicvaluechanged',
-            //     function (e) {
-            //         this.handleFlowNotifications(e)
-            //     });
 
             await this.flowCharacteristic.startNotifications();
             console.log('> Notifications started');
@@ -134,49 +84,9 @@ class Flow {
             }
         }
     }
-
-    _handleFlowNotifications(event, object) {
-        console.log("finally");
-        let value = event.target.value;
-        let id = event.target.service.device.id;
-        let int16View = new Int16Array(value.buffer);
-        let timestamp = new Date().getTime();
-        // TextDecoder to process raw data bytes.
-        for (let i = 0; i < 7; i++) {
-            //Takes the 7 first values as 16bit integers from each notification
-            //This is then sent as a string with a sensor signifier as OSC using osc-web
-            socket.emit('message', timestamp + ',abdomen,' + int16View[i].toString() + ',' + (timestamp - 600 + i * 100));
-            // dataArray.push('\n' + timestamp + ',abdomen,' + int16View[i].toString() + ',' + (timestamp - 600 + i * 100))
-
-            let v = int16View[i];
-
-            if (v > object.maxVal) {
-                object.maxVal = v;
-            }
-            if (v < object.minVal) {
-                object.minVal = v;
-            }
-
-            object.values.push(int16View[i]);
-        }
-        document.getElementById(object.name + "Text").innerHTML = object.name + ": " + int16View[0].toString();
-
-        let valueRange = object.maxVal - object.minVal;
-        var plotValues = object.values.map(function (element) {
-            return (element - object.minVal) / valueRange;
-        });
-
-        if (object.values.length > 200) {
-            object.values.splice(0, 7);
-        }
-        drawWaves(plotValues, object.canvas, 1, 6.0);
-
-    }
-
 }
 
-function pompel(event, object) {
-    console.log("pompel");
+function handleFlowNotifications(event, object) {
     let value = event.target.value;
     let id = event.target.service.device.id;
     let int16View = new Int16Array(value.buffer);
