@@ -82,9 +82,8 @@ function handleFlowNotifications(event) {
     for (let i = 0; i < 7; i++) {
         //Takes the 7 first values as 16bit integers from each notification
         //This is then sent as a string with a sensor signifier as OSC using osc-web
-        // socket.emit('message', timestamp + ',abdomen,' + int16View[i].toString() + ',' + (timestamp - 600 + i * 100));
-        dataArray.push('\n' + timestamp + ',abdomen,' + int16View[i].toString() + ',' + (timestamp - 600 + i * 100))
-        // console.log(dataArray);
+        socket.emit('message', timestamp + ',abdomen,' + int16View[i].toString() + ',' + (timestamp - 600 + i * 100));
+        // dataArray.push('\n' + timestamp + ',abdomen,' + int16View[i].toString() + ',' + (timestamp - 600 + i * 100))
 
         let v = int16View[i];
 
