@@ -1,7 +1,6 @@
 // Function for drawing graph of heart rate data in real time
 function drawWaves(valueArray, canvas, scale, xScale=30, adjust=0) {
 
-
   requestAnimationFrame(() => {
     canvas.width = parseInt(getComputedStyle(canvas).width.slice(0, -2)) * devicePixelRatio;
     canvas.height = parseInt(getComputedStyle(canvas).height.slice(0, -2)) * devicePixelRatio;

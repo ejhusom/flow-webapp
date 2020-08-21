@@ -37,6 +37,8 @@ async function downloadData() {
 */
 
 let m;
+let abdomen;
+let ribcage;
 
 let cbConnecting = function() {
     document.querySelector('#connect').innerText = 'Connecting';
@@ -127,6 +129,11 @@ document.addEventListener('DOMContentLoaded', function(e) {
         }
     });
 
+
+    abdomen = new Flow("abdomen");
+
+
+
     // document.querySelector('#toggle-instructions').addEventListener('click', function() {
     //     let e = document.querySelector('#instruction-text');
     //     let button_text = 'Show instructions';
@@ -141,13 +148,12 @@ document.addEventListener('DOMContentLoaded', function(e) {
 
 
     document.querySelector("#test-flow").addEventListener("click", onTestButtonClick);
-    document.querySelector("#connect-flow").addEventListener("click", onFlowButtonClick);
+    document.querySelector("#connect-flow-abdomen").addEventListener("click", abdomen.onFlowButtonClick);
     document.querySelector("#connect-flow-ribcage").addEventListener("click", onFlowRibcageButtonClick);
     document.querySelector("#connect-hr").addEventListener("click", onHeartRateButtonClick);
-    document.querySelector("#stop-flow").addEventListener('click', onStopFlowClick);
+    document.querySelector("#stop-flow").addEventListener('click', abdomen.onStopFlowClick);
     document.querySelector("#stop-flow").addEventListener('click', onStopFlowRibcageClick);
     document.querySelector("#stop-hr").addEventListener('click', onStopHeartRateClick);
-
 
     document.querySelector("#download").addEventListener('click', downloadData);
 

@@ -74,6 +74,7 @@ async function onStopFlowClick() {
 }
 
 function handleFlowNotifications(event) {
+    console.log("nonono");
     let value = event.target.value;
     let id = event.target.service.device.id;
     let int16View = new Int16Array(value.buffer);

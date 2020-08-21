@@ -15,7 +15,7 @@
         <div id="controls">
             <button id="connect">Connect PM5</button>
             <button id="test-flow">Test FLOW</button>
-            <button id="connect-flow">Connect FLOW abdomen</button>
+            <button id="connect-flow-abdomen">Connect FLOW abdomen</button>
             <button id="connect-flow-ribcage">Connect FLOW ribcage</button>
             <button id="stop-flow">Stop all FLOW sensors</button>
             <button id="connect-hr">Connect HR</button>
@@ -53,10 +53,13 @@
         <div id="notifications">
         </div>
 
+        <script src="http://127.0.0.1:8081/socket.io/socket.io.js"></script>
+        <script src="js/socketconnect.js"></script>
         <script src="js/chart.js"></script>
         <script src="js/pm5.js"></script>
         <script src="js/pm5-printables.js"></script>
-        <script src="js/flow-abdomen.js"></script>
+        <script src="js/flow.js"></script>
+        <!-- <script src="js/flow-abdomen.js"></script> -->
         <script src="js/flow-ribcage.js"></script>
         <script src="js/testflow.js"></script>
         <script src="js/heartrate.js"></script>
