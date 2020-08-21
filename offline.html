@@ -10,7 +10,8 @@
     <body>
 
         <h1>Flow</h1>
-        <h2>Collect workout data</h2>
+        <h2>Collect workout data (OSC backend)</h2>
+        <a href="index.html">Go to online version (does not requires backend server)</a>
 
         <div id="controls">
             <button id="connect">Connect PM5</button>
@@ -20,7 +21,7 @@
             <button id="stop-flow">Stop all FLOW sensors</button>
             <button id="connect-hr">Connect HR</button>
             <button id="stop-hr">Stop heart rate</button>
-            <button id="download">Download data (beta)</button>
+            <!-- <button id="download">Download data (beta)</button> -->
             <!-- <button id="toggle-instructions">Show instructions</button> -->
             <span id="monitor-information"></span>
         </div>
@@ -54,16 +55,16 @@
         </div>
 
         <script src="http://127.0.0.1:8081/socket.io/socket.io.js"></script>
+        <script src="js/socketconnect.js"></script>
         <script src="js/chart.js"></script>
         <script src="js/pm5.js"></script>
         <script src="js/pm5-printables.js"></script>
-        <script src="js/flow-abdomen.js"></script>
-        <script src="js/flow-ribcage.js"></script>
+        <script src="js/flow.js"></script>
         <script src="js/testflow.js"></script>
         <script src="js/heartrate.js"></script>
         <script src="js/ymnnjq.js"></script>
         <script src="js/app.js"></script>
-        <script src="js/socketconnect.js></script>
+        <script src="js/senddata.js"></script>
 
     </body>
 

@@ -119,11 +119,11 @@ function handleHeartRateNotifications(event) {
         let rrIntervals = [];
         for (; index + 1 < value.byteLength; index += 2) {
             rrIntervals.push(value.getUint16(index, /*littleEndian=*/true));
-            socket.emit('message', new Date().getTime() + ',rr,' + value.getUint16(index, true)); 
+            saveData(timestamp + ',rr,' + value.getUint16(index, true)); 
         }
         result.rrIntervals = rrIntervals;
     }
-    socket.emit('message', timestamp + ',heartrate,' + result.heartRate); 
+    saveData(timestamp + ',heartrate,' + result.heartRate); 
 
     heartRateText.innerHTML = result.heartRate + ' &#x2764;';
     heartRateValues.push(result.heartRate);

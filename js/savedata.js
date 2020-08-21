@@ -1,7 +1,6 @@
-async function saveData(string, online=true) {
+async function saveData(string) {
 
-    if (online) {
-        dataArray.push(string);
-    }
+        dataArray.push("\n" + string);
+        // socket.emit('message', string);
 }
 

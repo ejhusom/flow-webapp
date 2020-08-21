@@ -730,7 +730,7 @@ class PM5 {
             r.strokePower =           (v[o+3] + (v[o+4] << 8));
 
             // Extract power data
-            socket.emit('message', new Date().getTime() + ',power,' +
+            saveData(new Date().getTime() + ',power,' +
                 r.strokePower + "," + r.elapsedTime);
 
             // Visualize
@@ -773,7 +773,7 @@ class PM5 {
             r.strokeCalories =        (v[o+5] + (v[o+6] << 8));
 
             // Extract calorie data
-            socket.emit('message', new Date().getTime() + ',calories,' +
+            saveData(new Date().getTime() + ',calories,' +
                 r.strokeCalories + "," + r.elapsedTime);
 
             caloriesValues.push(r.strokeCalories);

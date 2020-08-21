@@ -28,9 +28,6 @@ class Flow {
         this.canvas = document.querySelector('#' + this.name + 'Chart');
         this.onFlowButtonClick = this._onFlowButtonClick.bind(this);
         this.onStopFlowClick = this._onStopFlowClick.bind(this);
-        // this.handleFlowNotifications = this._handleFlowNotifications.bind(this);
-        // this.boundHandling = this.handleFlowNotifications.bind(this);
-        // this.handleFlowNotifications = e => this.handleFlowNotifications(e);
     }
 
     async _onFlowButtonClick() {
@@ -95,8 +92,13 @@ function handleFlowNotifications(event, object) {
     for (let i = 0; i < 7; i++) {
         //Takes the 7 first values as 16bit integers from each notification
         //This is then sent as a string with a sensor signifier as OSC using osc-web
-        socket.emit('message', timestamp + ',abdomen,' + int16View[i].toString() + ',' + (timestamp - 600 + i * 100));
+        // socket.emit('message', timestamp + ',abdomen,' + int16View[i].toString() + ',' + (timestamp - 600 + i * 100));
         // dataArray.push('\n' + timestamp + ',abdomen,' + int16View[i].toString() + ',' + (timestamp - 600 + i * 100))
+        saveData(timestamp + ',' 
+            + object.name + ',' 
+            + int16View[i].toString() + ',' 
+            + (timestamp - 600 + i * 100)
+        );
 
         let v = int16View[i];
 

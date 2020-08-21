@@ -131,6 +131,7 @@ document.addEventListener('DOMContentLoaded', function(e) {
 
 
     abdomen = new Flow("abdomen");
+    ribcage = new Flow("ribcage");
 
 
 
@@ -148,11 +149,15 @@ document.addEventListener('DOMContentLoaded', function(e) {
 
 
     document.querySelector("#test-flow").addEventListener("click", onTestButtonClick);
-    document.querySelector("#connect-flow-abdomen").addEventListener("click", abdomen.onFlowButtonClick);
-    document.querySelector("#connect-flow-ribcage").addEventListener("click", onFlowRibcageButtonClick);
+    document.querySelector("#connect-flow-abdomen").addEventListener(
+        "click", abdomen.onFlowButtonClick
+    );
+    document.querySelector("#connect-flow-ribcage").addEventListener(
+        "click", ribcage.onFlowButtonClick
+    );
     document.querySelector("#connect-hr").addEventListener("click", onHeartRateButtonClick);
     document.querySelector("#stop-flow").addEventListener('click', abdomen.onStopFlowClick);
-    document.querySelector("#stop-flow").addEventListener('click', onStopFlowRibcageClick);
+    document.querySelector("#stop-flow").addEventListener('click', ribcage.onStopFlowClick);
     document.querySelector("#stop-hr").addEventListener('click', onStopHeartRateClick);
 
     document.querySelector("#download").addEventListener('click', downloadData);
