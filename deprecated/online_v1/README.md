@@ -1,25 +1,32 @@
-# Flow Webapp
+# Flow WebApp
 
-This application uses Bluetooth to connect to 
-
-- Concept2 PM5 monitor
-- SweetZpot FLOW breathing sensors
-- Heart rate sensors
+This application connects to a Concept2 PM5 monitor and SweetZpot FLOW breathing
+sensors using Bluetooth Low Energy, and predicts airflow using a LSTM neural
+network model. 
 
 ## Requirements
 
 Hardware:
 
 * [SweetZpot FLOW breathing sensor](https://www.sweetzpot.com/flow).
-* [PM5](https://www.concept2.com/indoor-rowers/performance-monitors) attached to a [Concept2](https://www.concept2.com) BikeErg, RowErg or SkiErg (currently only tested with BikeErg).
+* [PM5](https://www.concept2.com/indoor-rowers/performance-monitors) attached to a [Concept2 BikeErg](https://www.concept2.com).
 
 Software:
 
 * [Web Bluetooth supported browser](https://caniuse.com/#feat=web-bluetooth).
+* Python 3 for predicting airflow, with the following modules:
+    - pytorch
+    - flask
+    - numpy
+
 
 
 ## Usage
 
+* Start airflow prediction app by running `python app.py` from the `src`
+  directory.
+* Open `index.html` in a browser that supports Web Bluetooth (for example Google
+  Chrome).
 * Connecting FLOW sensors:
     * **Important:** Strap the FLOW sensors around your abdomen/ribcage **before**
       you connect them to the web app. Otherwise the scaling of the data and the
@@ -54,4 +61,4 @@ Software:
 
 
 
-Tested in Google Chrome on macOs Catalina.
+Tested in Google Chrome on Mac OS X.

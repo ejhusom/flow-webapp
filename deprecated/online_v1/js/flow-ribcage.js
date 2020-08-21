@@ -101,8 +101,6 @@ function handleFlowRibcageNotifications(event) {
     }
     ribcageText.innerHTML = "Ribcage: " + int16View[0].toString();
     
-    // let minRibVal = Math.min.apply(null, ribcageValues);
-    // let maxRibVal = Math.max.apply(null, ribcageValues);
     let ribcageRange = maxRibVal - minRibVal;
     var ribcagePlotValues = ribcageValues.map(function(element) {
         return (element - minRibVal)/ribcageRange;

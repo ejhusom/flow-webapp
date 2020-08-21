@@ -18,18 +18,13 @@ limitations under the License.
 
 */
 
-var flowRibcageCharacteristic;
-var ribcageValues = [];
-var maxRibVal = 0;
-var minRibVal = 4096;
-var ribcageCanvas = document.querySelector('#ribcageChart');
+var flowCharacteristic;
+var abdomenValues = [];
+var maxAbVal = 0;
+var minAbVal = 4096;
+var abdomenCanvas = document.querySelector('#abdomenChart');
 
-var airflowValues = [];
-var minAirVal = 0.1;
-var maxAirVal = 0.0;
-var airflowCanvas = document.querySelector('#airflowChart');
-
-async function onFlowRibcageButtonClick() {
+async function onFlowButtonClick() {
 
     let serviceUuid = 0xffb0; // BreathZpot breathing service
     serviceUuid = parseInt(serviceUuid);
@@ -40,7 +35,8 @@ async function onFlowRibcageButtonClick() {
     try {
         console.log('Requesting Bluetooth Device...');
         const device = await navigator.bluetooth.requestDevice({
-            filters: [{services: [serviceUuid]}]});
+            filters: [{ services: [serviceUuid] }]
+        });
 
         console.log('Connecting to GATT Server...');
         const server = await device.gatt.connect();
@@ -49,35 +45,35 @@ async function onFlowRibcageButtonClick() {
         const service = await server.getPrimaryService(serviceUuid);
 
         console.log('Getting Characteristic...');
-        flowRibcageCharacteristic = await service.getCharacteristic(characteristicUuid);
+        flowCharacteristic = await service.getCharacteristic(characteristicUuid);
 
-        await flowRibcageCharacteristic.startNotifications();
+        await flowCharacteristic.startNotifications();
 
         console.log('> Notifications started');
-        flowRibcageCharacteristic.addEventListener('characteristicvaluechanged',
-            handleFlowRibcageNotifications);
+        flowCharacteristic.addEventListener('characteristicvaluechanged',
+            handleFlowNotifications);
 
-    
-    } catch(error) {
+
+    } catch (error) {
         console.log('Argh! ' + error);
     }
 
 }
 
-async function onStopFlowRibcageClick() {
-  if (flowRibcageCharacteristic) {
-    try {
-      await flowRibcageCharacteristic.stopNotifications();
-      console.log('> Notifications stopped');
-      flowRibcageCharacteristic.removeEventListener('characteristicvaluechanged',
-          handleFlowRibcageNotifications);
-    } catch(error) {
-      console.log('Argh! ' + error);
+async function onStopFlowClick() {
+    if (flowCharacteristic) {
+        try {
+            await flowCharacteristic.stopNotifications();
+            console.log('> Notifications stopped');
+            flowCharacteristic.removeEventListener('characteristicvaluechanged',
+                handleFlowNotifications);
+        } catch (error) {
+            console.log('Argh! ' + error);
+        }
     }
-  }
 }
 
-function handleFlowRibcageNotifications(event) {
+function handleFlowNotifications(event) {
     let value = event.target.value;
     let id = event.target.service.device.id;
     let int16View = new Int16Array(value.buffer);
@@ -86,32 +82,32 @@ function handleFlowRibcageNotifications(event) {
     for (let i = 0; i < 7; i++) {
         //Takes the 7 first values as 16bit integers from each notification
         //This is then sent as a string with a sensor signifier as OSC using osc-web
-        socket.emit('message', timestamp + ',ribcage,' + int16View[i].toString() + ',' + (timestamp - 600 + i*100)); 
+        // socket.emit('message', timestamp + ',abdomen,' + int16View[i].toString() + ',' + (timestamp - 600 + i * 100));
+        dataArray.push('\n' + timestamp + ',abdomen,' + int16View[i].toString() + ',' + (timestamp - 600 + i * 100))
+        // console.log(dataArray);
 
         let v = int16View[i];
 
-        if (v > maxRibVal) {
-            maxRibVal = v;
+        if (v > maxAbVal) {
+            maxAbVal = v;
         }
-        if (v < minRibVal) {
-            minRibVal = v;
+        if (v < minAbVal) {
+            minAbVal = v;
         }
 
-        ribcageValues.push(int16View[i]);
+        abdomenValues.push(int16View[i]);
     }
-    ribcageText.innerHTML = "Ribcage: " + int16View[0].toString();
-    
-    // let minRibVal = Math.min.apply(null, ribcageValues);
-    // let maxRibVal = Math.max.apply(null, ribcageValues);
-    let ribcageRange = maxRibVal - minRibVal;
-    var ribcagePlotValues = ribcageValues.map(function(element) {
-        return (element - minRibVal)/ribcageRange;
+    abdomenText.innerHTML = "Abdomen: " + int16View[0].toString();
+
+    let abdomenRange = maxAbVal - minAbVal;
+    var abdomenPlotValues = abdomenValues.map(function (element) {
+        return (element - minAbVal) / abdomenRange;
     });
 
-    if (ribcagePlotValues.length > 200) {
-        ribcageValues.splice(0, 7);
+    if (abdomenValues.length > 200) {
+        abdomenValues.splice(0, 7);
     }
-    drawWaves(ribcagePlotValues, ribcageCanvas, 1, 6.0);
+    drawWaves(abdomenPlotValues, abdomenCanvas, 1, 6.0);
 
 }
 
