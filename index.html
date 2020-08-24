@@ -1,109 +1,200 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="shortcut icon" href="img/favicon.ico">
-        <link rel="stylesheet" href="css/style.css" type="text/css" />
-    </head>
 
-    <body>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="img/favicon.ico">
+    <link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
 
-        <h1>Flow</h1>
-        <h2>Collect workout data (no backend needed)</h2>
-        
-        <a href="offline.html">Go to OSC version (requires Socket server in background)</a>
+<header>
+    <h1>Flow</h1>
+    <h2>Collect workout data (no backend needed)</h2>
+</header>
 
-        <div id="controls">
-            <button id="connect">Connect PM5</button>
-            <button id="test-flow">Test FLOW</button>
-            <button id="connect-flow-abdomen">Connect FLOW abdomen</button>
-            <button id="connect-flow-ribcage">Connect FLOW ribcage</button>
-            <button id="stop-flow">Stop all FLOW sensors</button>
-            <button id="connect-hr">Connect HR</button>
-            <button id="stop-hr">Stop heart rate</button>
-            <button id="download">Download data</button>
-            <!-- <button id="toggle-instructions">Show instructions</button> -->
-            <span id="monitor-information"></span>
-        </div>
+<body>
 
-        <div class="container">
-            <div class="statusText" id="heartRateText">HR</div>
-              <canvas class="chart" id="heartRateChart"></canvas>
-        </div>
-        <div class="container">
-            <div class="statusText" id="ribcageText">ribcage</div>
-              <canvas class="chart" id="ribcageChart"></canvas>
-        </div>
-        <div class="container">
-            <div class="statusText" id="abdomenText">abdomen</div>
-              <canvas class="chart" id="abdomenChart"></canvas>
-        </div>
-        <div class="container">
-            <div class="statusText" id="powerText">power</div>
-              <canvas class="chart" id="powerChart"></canvas>
-        </div>
-        <div class="container">
-            <div class="statusText" id="caloriesText">calories</div>
-              <canvas class="chart" id="caloriesChart"></canvas>
-        </div>
-        <!-- <div class="container"> -->
-        <!--     <div class="statusText" id="airflowText">Predicted airflow</div> -->
-        <!--       <canvas class="chart" id="airflowChart"></canvas> -->
-        <!-- </div> -->
 
-        <div id="notifications">
-        </div>
 
-        <script src="http://127.0.0.1:8081/socket.io/socket.io.js"></script>
-        <script src="js/socketconnect.js"></script>
-        <script src="js/chart.js"></script>
-        <script src="js/pm5.js"></script>
-        <script src="js/pm5-printables.js"></script>
-        <script src="js/flow.js"></script>
-        <script src="js/testflow.js"></script>
-        <script src="js/heartrate.js"></script>
-        <script src="js/ymnnjq.js"></script>
-        <script src="js/app.js"></script>
-        <script src="js/savedata.js"></script>
+    <a href="offline.html">Go to OSC version (requires Socket server in background)</a>
 
-    </body>
+    <p>
+        View the source code on <a href"https://github.com/ejhusom/flow">this link</a>.
+    </p>
+    <h3>Instructions</h3>
+    <p>This application uses Bluetooth to connect to</p>
+    <ul>
+        <li>Concept2 PM5 monitor</li>
+        <li>SweetZpot FLOW breathing sensors</li>
+        <li>Heart rate sensors</li>
+    </ul>
+    <h2><a id="user-content-requirements" class="anchor" aria-hidden="true" href="#requirements"><svg
+                class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16"
+                aria-hidden="true">
+                <path fill-rule="evenodd"
+                    d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z">
+                </path>
+            </svg></a>Requirements</h2>
+    <p>Hardware:</p>
+    <ul>
+        <li><a href="https://www.sweetzpot.com/flow" rel="nofollow">SweetZpot FLOW breathing sensor</a>.</li>
+        <li><a href="https://www.concept2.com/indoor-rowers/performance-monitors" rel="nofollow">PM5</a> attached to a
+            <a href="https://www.concept2.com" rel="nofollow">Concept2</a> BikeErg, RowErg or SkiErg (currently only
+            tested with BikeErg).</li>
+    </ul>
+    <p>Software:</p>
+    <ul>
+        <li><a href="https://caniuse.com/#feat=web-bluetooth" rel="nofollow">Web Bluetooth supported browser</a>.</li>
+    </ul>
+    <h2><a id="user-content-usage" class="anchor" aria-hidden="true" href="#usage"><svg class="octicon octicon-link"
+                viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">
+                <path fill-rule="evenodd"
+                    d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z">
+                </path>
+            </svg></a>Usage</h2>
+    <ul>
+        <li>Connecting FLOW sensors:
+            <ul>
+                <li><strong>Important:</strong> Strap the FLOW sensors around your abdomen/ribcage
+                    <strong>before</strong>
+                    you connect them to the web app. Otherwise the scaling of the data and the
+                    visualization will be suboptimal.</li>
+                <li>Click <strong>Connect FLOW ribcage</strong>, and pair with
+                    your device. To get breathing measurements from abdomen movement as well, place another
+                    sensor around the abdomen, click <strong>Connect FLOW
+                        abdomen</strong> and pair with the
+                    second sensor.</li>
+            </ul>
+            <ul>
+                <li><em>Tips</em>: If you have several sensors, and are unable to distinguish them by their
+                    address, open <em>Developer tools</em> in the browser, click the <strong>Test FLOW</strong>
+                    button, and pair with one of your devices. The values from the sensor will
+                    be printed to the console, and you can individually test your sensors to
+                    see which is connected. Click <strong>Stop test FLOW</strong> when you have identified
+                    the paired sensor. After this you can click <strong>Connect FLOW
+                        abdomen/ribcage</strong>, and choose the sensor which is marked with <em>paired</em>;
+                    this is the one you connected to when testing.</li>
+                <li>The real time graphs of breathing data will automatically
+                    scale based on the maximum and minimum values
+                    obtained.</li>
+            </ul>
+        </li>
+        <li>Connecting PM5 BikeErg:
+            <ul>
+                <li>On the PM5 monitor, depending on your model:
+                    <ul>
+                        <li><strong>More Options</strong> -&gt; <strong>Turn Wireless ON</strong> <em>or</em></li>
+                        <li><strong>Connect</strong>.</li>
+                    </ul>
+                </li>
+                <li>Click the <strong>Connect PM5</strong> button in the web app. The PM5 should appear as
+                    a device; select it and click <strong>Pair</strong>. Power data will appear when you start
+                    cycling. Additional workout data will appear below the graphs.</li>
+            </ul>
+        </li>
+        <li>Connecting heart rate sensor (either using one of the FLOW sensors, or a
+            separate heart rate sensor):
+            <ul>
+                <li>Click <strong>Connect HR</strong>, and pair with a compatible device.</li>
+            </ul>
+        </li>
+    </ul>
+    <p>Tested in Google Chrome on macOs Catalina.</p>
+    </article>
+    </div>
+    </div>
+
+    <div id="controls">
+        <button id="connect">Connect PM5</button>
+        <button id="test-flow">Test FLOW</button>
+        <button id="connect-flow-abdomen">Connect FLOW abdomen</button>
+        <button id="connect-flow-ribcage">Connect FLOW ribcage</button>
+        <button id="stop-flow">Stop all FLOW sensors</button>
+        <button id="connect-hr">Connect HR</button>
+        <button id="stop-hr">Stop heart rate</button>
+        <button id="download">Download data</button>
+        <!-- <button id="toggle-instructions">Show instructions</button> -->
+        <span id="monitor-information"></span>
+    </div>
+
+    <div class="container">
+        <div class="statusText" id="heartRateText">HR</div>
+        <canvas class="chart" id="heartRateChart"></canvas>
+    </div>
+    <div class="container">
+        <div class="statusText" id="ribcageText">ribcage</div>
+        <canvas class="chart" id="ribcageChart"></canvas>
+    </div>
+    <div class="container">
+        <div class="statusText" id="abdomenText">abdomen</div>
+        <canvas class="chart" id="abdomenChart"></canvas>
+    </div>
+    <div class="container">
+        <div class="statusText" id="powerText">power</div>
+        <canvas class="chart" id="powerChart"></canvas>
+    </div>
+    <div class="container">
+        <div class="statusText" id="caloriesText">calories</div>
+        <canvas class="chart" id="caloriesChart"></canvas>
+    </div>
+    <!-- <div class="container"> -->
+    <!--     <div class="statusText" id="airflowText">Predicted airflow</div> -->
+    <!--       <canvas class="chart" id="airflowChart"></canvas> -->
+    <!-- </div> -->
+
+    <div id="notifications">
+    </div>
+
+    <!-- <script src="http://127.0.0.1:8081/socket.io/socket.io.js"></script> -->
+    <!-- <script src="js/socketconnect.js"></script> -->
+    <script src="js/chart.js"></script>
+    <script src="js/pm5.js"></script>
+    <script src="js/pm5-printables.js"></script>
+    <script src="js/flow.js"></script>
+    <script src="js/testflow.js"></script>
+    <script src="js/heartrate.js"></script>
+    <script src="js/ymnnjq.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/savedata.js"></script>
+
+</body>
 
 </html>
-        <!-- <div id="instruction-text" class="hidden"> -->
-        <!--     <p> -->
-        <!--     This application connects to a --> 
-        <!--     <a target="_blank" href="https://www.concept2.com/indoor-rowers/performance-monitors">Concept2 -->
-        <!--     PM5</a> monitor, a heart rate sensor and one or two BreathZpot Flow sensors over Web Bluetooth. -->
-        <!--     </p> -->
+<!-- <div id="instruction-text" class="hidden"> -->
+<!--     <p> -->
+<!--     This application connects to a -->
+<!--     <a target="_blank" href="https://www.concept2.com/indoor-rowers/performance-monitors">Concept2 -->
+<!--     PM5</a> monitor, a heart rate sensor and one or two BreathZpot Flow sensors over Web Bluetooth. -->
+<!--     </p> -->
 
-        <!--     <h2>Requirements</h2> -->
-        <!--     <ul> -->
-        <!--         <li><a target="_blank" href="https://caniuse.com/#feat=web-bluetooth">Web Bluetooth supported browser</a>, for example Google Chrome.</li> -->
-        <!--         <li><a target="_blank" href="https://www.concept2.com/indoor-rowers/performance-monitors">PM5</a> attached to a -->
-        <!--             <a target="_blank" href="https://www.concept2.com">Concept2 ergometer</a>.</li> -->
-        <!--         <li>Heart rate sensor.</li> -->
-        <!--         <li>BreathZpot Flow sensor (one or two).</li> -->
-        <!--     </ul> -->
+<!--     <h2>Requirements</h2> -->
+<!--     <ul> -->
+<!--         <li><a target="_blank" href="https://caniuse.com/#feat=web-bluetooth">Web Bluetooth supported browser</a>, for example Google Chrome.</li> -->
+<!--         <li><a target="_blank" href="https://www.concept2.com/indoor-rowers/performance-monitors">PM5</a> attached to a -->
+<!--             <a target="_blank" href="https://www.concept2.com">Concept2 ergometer</a>.</li> -->
+<!--         <li>Heart rate sensor.</li> -->
+<!--         <li>BreathZpot Flow sensor (one or two).</li> -->
+<!--     </ul> -->
 
-        <!--     <h2>Usage</h2> -->
-            
-        <!--     In order to store data in a local file, follow these steps: -->
+<!--     <h2>Usage</h2> -->
 
-        <!--     <ul> -->
-        <!--         <li>Run <code>node bridge.js</code> to set up an OSC server to collect data.</li> -->
-        <!--         <li>Load <code>index.html</code>. Check browser console; if <code>ERR_CONNECTION_REFUSED</code> appears, the script cannot communicate with the server, and no data will be written. If noe errors appear (warnings are acceptable), the script is working.</li> -->
-        <!--     </ul> -->
+<!--     In order to store data in a local file, follow these steps: -->
 
-        <!--     To connect sensors, follow these steps: -->
-        <!--     <ul> -->
-        <!--         <li>Press <strong>Connect HR</strong> to connect heart rate sensor.</li> -->
-        <!--         <li>Press <strong>Connect FLOW ribcage/abdomen</strong> to connect breathing sensors.</li> -->
-        <!--         <li>On the PM5, <strong>More Options</strong> -> <strong>Turn Wireless ON</strong></li> -->
-        <!--         <li>Click the <strong>Connect</strong> button above and pair to PM5.</li> -->
-        <!--         <li>Start rowing / skiing / biking.</li> -->
-        <!--     </ul> -->
-        <!--     <p> -->
-        <!--     Tested on Chrome on macOS Catalina. -->
-        <!--     </p> -->
-        <!-- </div> -->
+<!--     <ul> -->
+<!--         <li>Run <code>node bridge.js</code> to set up an OSC server to collect data.</li> -->
+<!--         <li>Load <code>index.html</code>. Check browser console; if <code>ERR_CONNECTION_REFUSED</code> appears, the script cannot communicate with the server, and no data will be written. If noe errors appear (warnings are acceptable), the script is working.</li> -->
+<!--     </ul> -->
+
+<!--     To connect sensors, follow these steps: -->
+<!--     <ul> -->
+<!--         <li>Press <strong>Connect HR</strong> to connect heart rate sensor.</li> -->
+<!--         <li>Press <strong>Connect FLOW ribcage/abdomen</strong> to connect breathing sensors.</li> -->
+<!--         <li>On the PM5, <strong>More Options</strong> -> <strong>Turn Wireless ON</strong></li> -->
+<!--         <li>Click the <strong>Connect</strong> button above and pair to PM5.</li> -->
+<!--         <li>Start rowing / skiing / biking.</li> -->
+<!--     </ul> -->
+<!--     <p> -->
+<!--     Tested on Chrome on macOS Catalina. -->
+<!--     </p> -->
+<!-- </div> -->

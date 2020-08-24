@@ -4,6 +4,7 @@
 body {
     margin: auto;
     padding: 1em;
+    /* font-family: monospace; */
 }
 
 .value {
@@ -43,8 +44,8 @@ body {
 
 @media (prefers-color-scheme: light) {
     body {
-        background-color: #111;
-        color: white;
+        /* background-color: #111; */
+        /* color: white; */
     }
     a {
         color: #99ccff;
