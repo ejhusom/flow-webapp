@@ -797,6 +797,11 @@ class PM5 {
             drawWaves(caloriesPlotValues, caloriesCanvas, 1, 60);
 
             r.strokeCount =           (v[o+7] + (v[o+8] << 8));
+            
+            // Extract cadence data
+            saveData(new Date().getTime() + ',cadence,' +
+                r.strokeCount + "," + r.elapsedTime);
+
             r.projectedWorkTime =     (v[o+9] + (v[o+10] << 8) + (v[o+11] << 16));
             r.projectedWorkDistance = (v[o+12] + (v[o+13] << 8) + (v[o+14] << 16));
             r.workPerStroke =         (v[o+15] + (v[o+16] << 8));
